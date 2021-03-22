@@ -9,6 +9,8 @@ import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
 import NewListingPage from "./pages/NewListing";
 import ListingPage from "./pages/Listing";
+import NewUserReview from "./pages/NewUserReview";
+import UserReviewPage from "./pages/UserReview";
 import UserPage from "./pages/User";
 
 ReactDOM.render(
@@ -20,6 +22,8 @@ ReactDOM.render(
       <Route exact path="/newlisting" component={NewListingPage} />
       <Route exact path="/listing/:id" component={ListingPage} />
       <Route exact path="/user/:id" component={UserPage} />
+      <Route exact path="/new-review" component={NewUserReview} />
+      <Route exact path="/user-reviews" component={UserReviewPage} />
     </Switch>
   </Router>,
   document.getElementById("root")
@@ -28,4 +32,4 @@ ReactDOM.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals();
+
