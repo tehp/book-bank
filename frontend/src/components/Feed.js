@@ -1,6 +1,8 @@
 import React from "react";
 import book_placeholder from "../img/book.jpeg";
 
+import { Link } from "react-router-dom";
+
 import config from "../config.json";
 
 class Feed extends React.Component {
@@ -18,6 +20,7 @@ class Feed extends React.Component {
       .then((data) => {
         console.log(data);
         let feed = data.body.map((id) => {
+          let listingURL = "/listing/" + id.ListingID;
           return (
             <div key={id.ListingID}>
               <article class="card">
@@ -27,14 +30,22 @@ class Feed extends React.Component {
                   <p>by: David Foster Wallace</p>
                   <p>Location: {id.Location}</p>
                   <p>Posted by: {id.Username}</p>
-                  <button>View</button>
+                  <div>
+                    <Link class="" to={listingURL}>
+                      <button>View</button>
+                    </Link>
+                  </div>
+                  <div>
+                    <Link class="" to={listingURL}>
+                      <button class="error">Remove</button>
+                    </Link>
+                  </div>
                 </footer>
               </article>
             </div>
           );
         });
         this.setState({ feed: feed });
-        console.log(this.state.feed);
       });
   }
 

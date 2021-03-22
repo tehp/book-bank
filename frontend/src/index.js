@@ -8,6 +8,7 @@ import HomePage from "./App";
 import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
 import NewListingPage from "./pages/NewListing";
+import ListingPage from "./pages/Listing";
 
 import reportWebVitals from "./reportWebVitals";
 
@@ -18,6 +19,7 @@ ReactDOM.render(
       <Route exact path="/login" component={LoginPage} />
       <Route exact path="/register" component={RegisterPage} />
       <Route exact path="/newlisting" component={NewListingPage} />
+      <Route exact path="/listing/:id" component={ListingPage} />
     </Switch>
   </Router>,
   document.getElementById("root")
