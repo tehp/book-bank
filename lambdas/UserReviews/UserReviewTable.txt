@@ -1,7 +1,0 @@
-{
-  "ReviewID": "uuid",
-  "Username": "dseiler",
-  "Reviewer": "aseiler",
-  "Rating": 5,
-  "Comment": "Best experience of my entire life."
-}
