@@ -11,21 +11,23 @@ class Feed extends React.Component {
   }
 
   componentDidMount() {
-    const apiUrl = "https://api.github.com/users/tehp/repos";
+    const apiUrl =
+      "https://eki60x9m4a.execute-api.us-east-1.amazonaws.com/dev/listings";
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        let feed = data.map((id) => {
+        let feed = data.body.map((id) => {
           return (
-            <div key={id.name}>
+            <div key={id.ListingID}>
               <article class="card">
                 <img src={book_placeholder} alt={id.name}></img>
                 <footer>
-                  <h3>{id.name}</h3>
-                  <p>David Foster Wallace</p>
+                  <h3>{id.Book}</h3>
+                  <p>by: David Foster Wallace</p>
+                  <p>Location: {id.Location}</p>
+                  <p>Posted by: {id.Username}</p>
                   <button>View</button>
-                  <p>{this.state.feed}</p>
                 </footer>
               </article>
             </div>

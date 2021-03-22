@@ -5,40 +5,122 @@ import "../css/Picnic.css";
 
 import Nav from "../components/Nav";
 
-function NewListing() {
-  return (
-    <div className="App">
-      <Nav />
-      <div class="content">
-        <h1>New Listing</h1>
-        <h4>Item Information</h4>
-        <fieldset class="flex two-800 one">
-          <label>
-            <input type="text" placeholder="Book Title"></input>
-          </label>
-          <label>
-            <input type="text" placeholder="Author"></input>
-          </label>
-          <label>
-            <input type="text" placeholder="Location"></input>
-          </label>
-        </fieldset>
-        <div class="menu">
-          <select>
-            <option>Paperback</option>
-            <option>Hardcover</option>
-          </select>
+class NewListing extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      location: "",
+      book: "",
+      duration: "",
+      author: "",
+    };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  handleSubmit(event) {
+    (async () => {
+      const rawResponse = await fetch(
+        "https://eki60x9m4a.execute-api.us-east-1.amazonaws.com/dev/listings",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(this.state),
+        }
+      );
+      const content = await rawResponse.json();
+
+      console.log(content);
+    })();
+
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <Nav />
+        <div class="content">
+          <h1>New Listing</h1>
+          <h4>Item Information</h4>
+
+          <form class="flex two-800 one" onSubmit={this.handleSubmit}>
+            <label>
+              <input
+                type="text"
+                value={this.state.book}
+                name="book"
+                onChange={this.handleInputChange}
+                placeholder="Book Title"
+              ></input>
+            </label>
+            <label>
+              <input
+                type="text"
+                value={this.state.author}
+                name="author"
+                onChange={this.handleInputChange}
+                placeholder="Author"
+              ></input>
+            </label>
+            <label>
+              <input
+                type="text"
+                value={this.state.location}
+                name="location"
+                onChange={this.handleInputChange}
+                placeholder="Location"
+              ></input>
+            </label>
+            <label>
+              <input
+                type="text"
+                value={this.state.duration}
+                name="duration"
+                onChange={this.handleInputChange}
+                placeholder="Duration"
+              ></input>
+            </label>
+            <label>
+              <input
+                type="text"
+                value={this.state.username}
+                name="username"
+                onChange={this.handleInputChange}
+                placeholder="Username"
+              ></input>
+            </label>
+            <div>
+              <input type="submit" value="Submit"></input>
+            </div>
+          </form>
+
+          <h4>Photo of book (highly reccomended)</h4>
+          <div style={{ width: 200 }}>
+            <label class="dropimage">
+              <input title="Drop image or click me" type="file"></input>
+            </label>
+          </div>
         </div>
-        <h4>Photo of book (highly reccomended)</h4>
-        <div style={{ width: 200 }}>
-          <label class="dropimage">
-            <input title="Drop image or click me" type="file"></input>
-          </label>
-        </div>
-        <button>Post</button>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default NewListing;
