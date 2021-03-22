@@ -19,6 +19,9 @@ class Listing extends React.Component {
     let { id } = this.props.match.params;
     console.log("setting state id: " + id);
     this.setState({ listing_id: id });
+    console.log("state: " + this.state.listing_id);
+
+    // TODO: Pull listing info and display it
 
     // const apiUrl = config.api.url + "/listings/" + id;
     // fetch(apiUrl)
@@ -31,6 +34,7 @@ class Listing extends React.Component {
 
   removeListing(id) {
     console.log("removing: " + id);
+
     (async () => {
       const apiUrl = config.api.url + "/listings";
       const rawResponse = await fetch(apiUrl, {
@@ -43,7 +47,11 @@ class Listing extends React.Component {
       });
       const content = await rawResponse.json();
 
-      console.log(content);
+      if (content.statusCode === 200) {
+        this.props.history.push("/");
+      } else {
+        // TODO: Error modal
+      }
     })();
   }
 

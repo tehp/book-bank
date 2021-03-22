@@ -46,7 +46,13 @@ class NewListing extends React.Component {
       });
       const content = await rawResponse.json();
 
-      console.log(content);
+      if (content.statusCode === 200) {
+        let listingURL = "/listing/" + content.body.listingID;
+        console.log("redirecting to new post: " + listingURL);
+        this.props.history.push(listingURL);
+      } else {
+        // TODO: Error modal
+      }
     })();
 
     event.preventDefault();
