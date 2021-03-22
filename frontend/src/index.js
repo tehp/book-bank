@@ -9,6 +9,8 @@ import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
 import NewListingPage from "./pages/NewListing";
 import ListingPage from "./pages/Listing";
+import NewUserReview from "./pages/NewUserReview";
+import UserReviewPage from "./pages/UserReview";
 
 import reportWebVitals from "./reportWebVitals";
 
@@ -20,6 +22,8 @@ ReactDOM.render(
       <Route exact path="/register" component={RegisterPage} />
       <Route exact path="/newlisting" component={NewListingPage} />
       <Route exact path="/listing/:id" component={ListingPage} />
+      <Route exact path="/new-review" component={NewUserReview} />
+      <Route exact path="/user-reviews" component={UserReviewPage} />
     </Switch>
   </Router>,
   document.getElementById("root")
