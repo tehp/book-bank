@@ -5,6 +5,7 @@ from botocore.exceptions import ClientError
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('BookBankListings')
 
+
 def lambda_handler(event, context):
     if event['listingID'] and event['listingID'].isnumeric():
         try:
@@ -23,7 +24,7 @@ def lambda_handler(event, context):
             'statusCode': 400,
             'body': json.dumps('No listingID found.')
         }
-        
+
     return {
         'statusCode': 200,
         'body': json.dumps('Successfully removed listing ' + event['listingID'] + '.')

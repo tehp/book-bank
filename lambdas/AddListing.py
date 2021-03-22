@@ -6,8 +6,9 @@ dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('BookBankListings')
 listingIndex = 0
 
+
 def lambda_handler(event, context):
-    
+
     error = ''
     try:
         if not event['username']:
@@ -23,13 +24,13 @@ def lambda_handler(event, context):
             'statusCode': 400,
             'body': json.dumps('Bad event call.')
         }
-        
+
     if error != '':
         return {
             'statusCode': 400,
             'body': json.dumps('Could not add listing:\n' + error)
         }
-        
+
     global listingIndex
     response = table.put_item(
         Item={
@@ -42,16 +43,17 @@ def lambda_handler(event, context):
             'Duration': event['duration']
         }
     )
-    
+
     listingIndex += 1
 
-    # TODO    
+    # TODO
     # Reject Requests to this listing
-        
+
     return {
         'statusCode': 200,
         'body': json.dumps('Successfully add listing ' + str(listingIndex-1) + '.')
     }
+
 
 def getBookInfo(event):
     if 'bookInfo' in event.keys():
