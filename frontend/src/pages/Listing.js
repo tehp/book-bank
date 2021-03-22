@@ -23,13 +23,13 @@ class Listing extends React.Component {
 
     // TODO: Pull listing info and display it
 
-    // const apiUrl = config.api.url + "/listings/" + id;
-    // fetch(apiUrl)
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //     this.setState({ listing: data });
-    //   });
+    const apiUrl = config.api.url + "/listings?listingID=" + id;
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({ listing: data[0] });
+        console.log(data);
+      });
   }
 
   removeListing(id) {
@@ -60,6 +60,11 @@ class Listing extends React.Component {
       <div className="App">
         <Nav />
         <div class="content">
+          <p>{this.state.listing.Book}</p>
+          <p>{this.state.listing.Duration}</p>
+          <p>{this.state.listing.Location}</p>
+          <p>{this.state.listing.Status}</p>
+
           <button
             class="error"
             onClick={this.removeListing.bind(this, this.state.listing_id)}
