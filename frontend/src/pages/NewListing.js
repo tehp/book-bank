@@ -5,6 +5,8 @@ import "../css/Picnic.css";
 
 import Nav from "../components/Nav";
 
+import config from "../config.json";
+
 class NewListing extends React.Component {
   constructor(props) {
     super(props);
@@ -33,17 +35,15 @@ class NewListing extends React.Component {
 
   handleSubmit(event) {
     (async () => {
-      const rawResponse = await fetch(
-        "https://eki60x9m4a.execute-api.us-east-1.amazonaws.com/dev/listings",
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(this.state),
-        }
-      );
+      const apiUrl = config.api.url + "/listings";
+      const rawResponse = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(this.state),
+      });
       const content = await rawResponse.json();
 
       console.log(content);

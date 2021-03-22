@@ -1,6 +1,7 @@
 import React from "react";
-
 import book_placeholder from "../img/book.jpeg";
+
+import config from "../config.json";
 
 class Feed extends React.Component {
   constructor() {
@@ -11,8 +12,7 @@ class Feed extends React.Component {
   }
 
   componentDidMount() {
-    const apiUrl =
-      "https://eki60x9m4a.execute-api.us-east-1.amazonaws.com/dev/listings";
+    const apiUrl = config.api.url + "/listings";
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
