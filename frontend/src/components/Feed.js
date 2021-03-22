@@ -19,7 +19,7 @@ class Feed extends React.Component {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        let feed = data.body.map((id) => {
+        let feed = data.map((id) => {
           console.log(id.ListingID);
           let listingURL = "/listing/" + id.ListingID;
           return (
