@@ -7,6 +7,7 @@ import "./index.css";
 import HomePage from "./App";
 import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
+import NewListingPage from "./pages/NewListing";
 
 import reportWebVitals from "./reportWebVitals";
 
@@ -16,6 +17,7 @@ ReactDOM.render(
       <Route exact path="/" component={HomePage} />
       <Route exact path="/login" component={LoginPage} />
       <Route exact path="/register" component={RegisterPage} />
+      <Route exact path="/newlisting" component={NewListingPage} />
     </Switch>
   </Router>,
   document.getElementById("root")
