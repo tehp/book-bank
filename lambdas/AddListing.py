@@ -32,7 +32,7 @@ def lambda_handler(event, context):
         
     listingID = (uuid.uuid4().int >> 64)
     
-    response = table.put_item(
+    result = table.put_item(
         Item={
             'ListingID': listingID,
             'Username': event['username'],
@@ -49,7 +49,10 @@ def lambda_handler(event, context):
         
     return {
         'statusCode': 200,
-        'body': json.dumps('Successfully add listing ' + str(listingID) + '.')
+        'body': {
+            'message': json.dumps('Successfully add listing ' + str(listingID) + '.'),
+            'listingID': listingID
+            }
     }
 
 def getBookInfo(event):
