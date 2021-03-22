@@ -55,9 +55,6 @@ def lambda_handler(event, context):
             exprAttrVals[':username'] = event['username']
             numFilters += 1
     
-    print(filterExpression)
-    print(exprAttrVals)
-    
     if 'listingID' in event.keys():
         response = table.query(
             KeyConditionExpression=Key('ListingID').eq(event['listingID'])
