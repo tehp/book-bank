@@ -10,7 +10,24 @@ class Feed extends React.Component {
     super();
     this.state = {
       books: [],
+      search_book: "",
+      search_location: "",
     };
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value,
+    });
+
+    // TODO: Use search_book and search_location to filter search
+    console.log(this.state.search_book + " " + this.state.search_location);
   }
 
   componentDidMount() {
@@ -64,10 +81,22 @@ class Feed extends React.Component {
       <div>
         <div class="flex three-800 one">
           <div>
-            <input type="text" placeholder="Book"></input>
+            <input
+              type="text"
+              placeholder="Book"
+              value={this.state.search_book}
+              name="search_book"
+              onChange={this.handleChange}
+            ></input>
           </div>
           <div>
-            <input type="text" placeholder="Location"></input>
+            <input
+              type="text"
+              placeholder="Location"
+              value={this.state.search_location}
+              name="search_location"
+              onChange={this.handleChange}
+            ></input>
           </div>
           <div class="menu">
             <select>
