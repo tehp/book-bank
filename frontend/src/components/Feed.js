@@ -19,33 +19,42 @@ class Feed extends React.Component {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        let feed = data.map((id) => {
-          console.log(id.ListingID);
-          let listingURL = "/listing/" + id.ListingID;
-          return (
-            <div key={id.ListingID}>
-              <article class="card">
-                <img src={book_placeholder} alt={id.name}></img>
-                <footer>
-                  <h3>{id.Book}</h3>
-                  <p>by: David Foster Wallace</p>
-                  <p>Location: {id.Location}</p>
-                  <p>Posted by: {id.Username}</p>
-                  <div>
-                    <Link class="" to={listingURL}>
-                      <button>View</button>
-                    </Link>
-                  </div>
-                  <div>
-                    <Link class="" to={listingURL}>
-                      <button class="error">Remove</button>
-                    </Link>
-                  </div>
-                </footer>
-              </article>
-            </div>
-          );
-        });
+        let feed = "";
+        if (Object.keys(data).length === 0) {
+          feed =
+            "Uh oh. Looks like there aren't any books available for this search.";
+        } else {
+          feed = data.map((id) => {
+            console.log(id.ListingID);
+            let listingURL = "/listing/" + id.ListingID;
+            return (
+              <div key={id.ListingID}>
+                <article class="card">
+                  <img src={book_placeholder} alt={id.name}></img>
+                  <footer>
+                    <h3>{id.Book}</h3>
+                    <p>by: David Foster Wallace</p>
+                    <p>Location: {id.Location}</p>
+                    <p>Posted by: {id.Username}</p>
+                    <div>
+                      <Link class="" to={listingURL}>
+                        <button>View</button>
+                      </Link>
+                    </div>
+                    <div>
+                      <Link class="" to={listingURL}>
+                        <button class="error">Remove</button>
+                      </Link>
+                    </div>
+                  </footer>
+                </article>
+              </div>
+            );
+          });
+        }
+
+        console.log("feed" + feed);
+
         this.setState({ feed: feed });
       });
   }
