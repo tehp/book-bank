@@ -3,6 +3,8 @@ import React from "react";
 import "../css/App.css";
 import "../css/Picnic.css";
 
+import book_placeholder from "../img/book.jpeg";
+
 import Nav from "../components/Nav";
 
 import config from "../config.json";
@@ -23,13 +25,13 @@ class Listing extends React.Component {
 
     // TODO: Pull listing info and display it
 
-    // const apiUrl = config.api.url + "/listings/" + id;
-    // fetch(apiUrl)
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //     this.setState({ listing: data });
-    //   });
+    const apiUrl = config.api.url + "/listings?listingID=" + id;
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({ listing: data[0] });
+        console.log(data);
+      });
   }
 
   removeListing(id) {
@@ -60,6 +62,16 @@ class Listing extends React.Component {
       <div className="App">
         <Nav />
         <div class="content">
+          <img
+            style={{ width: 500 }}
+            src={book_placeholder}
+            alt={this.state.listing.Book}
+          ></img>
+          <h3>{this.state.listing.Book}</h3>
+          <p>Available for: {this.state.listing.Duration}</p>
+          <p>Location: {this.state.listing.Location}</p>
+          <p>Listing status: {this.state.listing.Status}</p>
+
           <button
             class="error"
             onClick={this.removeListing.bind(this, this.state.listing_id)}

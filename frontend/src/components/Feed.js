@@ -10,7 +10,24 @@ class Feed extends React.Component {
     super();
     this.state = {
       books: [],
+      search_book: "",
+      search_location: "",
     };
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value,
+    });
+
+    // TODO: Use search_book and search_location to filter search
+    console.log(this.state.search_book + " " + this.state.search_location);
   }
 
   componentDidMount() {
@@ -19,33 +36,42 @@ class Feed extends React.Component {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        let feed = data.body.map((id) => {
-          console.log(id.ListingID);
-          let listingURL = "/listing/" + id.ListingID;
-          return (
-            <div key={id.ListingID}>
-              <article class="card">
-                <img src={book_placeholder} alt={id.name}></img>
-                <footer>
-                  <h3>{id.Book}</h3>
-                  <p>by: David Foster Wallace</p>
-                  <p>Location: {id.Location}</p>
-                  <p>Posted by: {id.Username}</p>
-                  <div>
-                    <Link class="" to={listingURL}>
-                      <button>View</button>
-                    </Link>
-                  </div>
-                  <div>
-                    <Link class="" to={listingURL}>
-                      <button class="error">Remove</button>
-                    </Link>
-                  </div>
-                </footer>
-              </article>
-            </div>
-          );
-        });
+        let feed = "";
+        if (Object.keys(data).length === 0) {
+          feed =
+            "Uh oh. Looks like there aren't any books available for this search.";
+        } else {
+          feed = data.map((id) => {
+            console.log(id.ListingID);
+            let listingURL = "/listing/" + id.ListingID;
+            return (
+              <div key={id.ListingID}>
+                <article class="card">
+                  <img src={book_placeholder} alt={id.name}></img>
+                  <footer>
+                    <h3>{id.Book}</h3>
+                    <p>by: David Foster Wallace</p>
+                    <p>Location: {id.Location}</p>
+                    <p>Posted by: {id.Username}</p>
+                    <div>
+                      <Link class="" to={listingURL}>
+                        <button>View</button>
+                      </Link>
+                    </div>
+                    <div>
+                      <Link class="" to={listingURL}>
+                        <button class="error">Remove</button>
+                      </Link>
+                    </div>
+                  </footer>
+                </article>
+              </div>
+            );
+          });
+        }
+
+        console.log("feed" + feed);
+
         this.setState({ feed: feed });
       });
   }
@@ -55,10 +81,22 @@ class Feed extends React.Component {
       <div>
         <div class="flex three-800 one">
           <div>
-            <input type="text" placeholder="Book"></input>
+            <input
+              type="text"
+              placeholder="Book"
+              value={this.state.search_book}
+              name="search_book"
+              onChange={this.handleChange}
+            ></input>
           </div>
           <div>
-            <input type="text" placeholder="Location"></input>
+            <input
+              type="text"
+              placeholder="Location"
+              value={this.state.search_location}
+              name="search_location"
+              onChange={this.handleChange}
+            ></input>
           </div>
           <div class="menu">
             <select>
