@@ -3,6 +3,8 @@ import React from "react";
 import "../css/App.css";
 import "../css/Picnic.css";
 
+import book_placeholder from "../img/book.jpeg";
+
 import Nav from "../components/Nav";
 
 import config from "../config.json";
@@ -60,10 +62,15 @@ class Listing extends React.Component {
       <div className="App">
         <Nav />
         <div class="content">
-          <p>{this.state.listing.Book}</p>
-          <p>{this.state.listing.Duration}</p>
-          <p>{this.state.listing.Location}</p>
-          <p>{this.state.listing.Status}</p>
+          <img
+            style={{ width: 500 }}
+            src={book_placeholder}
+            alt={this.state.listing.Book}
+          ></img>
+          <h3>{this.state.listing.Book}</h3>
+          <p>Available for: {this.state.listing.Duration}</p>
+          <p>Location: {this.state.listing.Location}</p>
+          <p>Listing status: {this.state.listing.Status}</p>
 
           <button
             class="error"
