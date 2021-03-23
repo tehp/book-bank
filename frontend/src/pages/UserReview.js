@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import config from "../config.json";
 
 function UserReview(props) {
-  const [data, setData] = useState({Username:'', Reviewer:'', Rating:0, Comment:''})
+  const [data, setData] = useState('')
 
   useEffect(() => {
     let { id } = props.match.params;
@@ -13,7 +13,7 @@ function UserReview(props) {
       .then((response) => {
           response.json().then(rawResponse => {
               console.log(rawResponse)
-              setData(rawResponse[0])
+              setData(rawResponse)
           }).catch(err => console.log(err))
       });
   }, [])
@@ -22,11 +22,7 @@ function UserReview(props) {
       <div className="App">
         <Nav />
         <div className="content">
-            {/*<li value={data.Username}>Username:</li>*/}
-          <p>Username: {data.Username}</p>
-          <p>Reviewer: {data.Reviewer}</p>
-          <p>Rating:: {data.Rating}</p>
-          <p>Comment: {data.Comment}</p>
+          <p>{data}</p>
         </div>
       </div>
   )
