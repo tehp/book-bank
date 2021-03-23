@@ -31,7 +31,7 @@ def lambda_handler(event, context):
     result = table.put_item(
         Item={
             'Username': event['username'],
-            'ListingID': int(event['listing']),
+            'ListingID': str(event['listing']),
             'Comment': getComment(event),
             'Status': "pending",
             'Reason': getReason(event)
