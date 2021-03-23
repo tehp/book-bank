@@ -12,6 +12,7 @@ import ListingPage from "./pages/Listing";
 import NewUserReview from "./pages/NewUserReview";
 import UserReviewPage from "./pages/UserReview";
 import UserPage from "./pages/User";
+import AllUserReviews from "./pages/UserReviews";
 
 ReactDOM.render(
   <Router>
@@ -24,6 +25,7 @@ ReactDOM.render(
       <Route exact path="/user/:id" component={UserPage} />
       <Route exact path="/new-review" component={NewUserReview} />
       <Route exact path="/user-review/:id" component={UserReviewPage} />
+      <Route exact path="/user-reviews" component={AllUserReviews} />
     </Switch>
   </Router>,
   document.getElementById("root")

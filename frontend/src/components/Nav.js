@@ -24,6 +24,9 @@ class Nav extends React.Component {
             <Link class="button success" to="/new-review">
               New Review
             </Link>
+            <Link class="button success" to="/user-reviews">
+              See Reviews
+            </Link>
             <Link class="pseudo button" to="/login">
               Login
             </Link>
