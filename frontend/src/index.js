@@ -23,7 +23,7 @@ ReactDOM.render(
       <Route exact path="/listing/:id" component={ListingPage} />
       <Route exact path="/user/:id" component={UserPage} />
       <Route exact path="/new-review" component={NewUserReview} />
-      <Route exact path="/user-reviews" component={UserReviewPage} />
+      <Route exact path="/user-review/:id" component={UserReviewPage} />
     </Switch>
   </Router>,
   document.getElementById("root")
