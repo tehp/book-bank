@@ -30,7 +30,7 @@ def lambda_handler(event, context):
             'body': json.dumps('Could not add listing:\n' + error)
         }
         
-    listingID = (uuid.uuid4().int >> 64)
+    listingID = str(uuid.uuid4().int)
     
     result = table.put_item(
         Item={
@@ -51,7 +51,7 @@ def lambda_handler(event, context):
         'statusCode': 200,
         'body': {
             'message': json.dumps('Successfully add listing ' + str(listingID) + '.'),
-            'listingID': listingID
+            'listingID': str(listingID)
             }
     }
 
