@@ -9,7 +9,6 @@ class Register extends React.Component {
     super(props);
     this.state = {
       email: "",
-      password: "",
       username: "",
       location: "",
     };
@@ -32,6 +31,8 @@ class Register extends React.Component {
   handleSubmit(event) {
     (async () => {
       const apiUrl = config.api.url + "/users";
+      console.log(JSON.stringify(this.state));
+
       const rawResponse = await fetch(apiUrl, {
         method: "POST",
         headers: {
@@ -40,12 +41,14 @@ class Register extends React.Component {
         },
         body: JSON.stringify(this.state),
       });
+
       const content = await rawResponse.json();
 
       if (content.statusCode === 200) {
-        let url = "/user/" + content.body.username;
+        let url = "/user/" + this.state.username;
         console.log("redirecting to new user: " + url);
         this.props.history.push(url);
+        console.log(content);
       } else {
         // TODO: Error modal
       }
@@ -71,13 +74,7 @@ class Register extends React.Component {
               ></input>
             </label>
             <label>
-              <input
-                type="password"
-                value={this.state.password}
-                name="password"
-                onChange={this.handleInputChange}
-                placeholder="Password"
-              ></input>
+              <input type="password" placeholder="Password"></input>
             </label>
             <label>
               <input
