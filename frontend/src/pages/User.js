@@ -12,24 +12,21 @@ class User extends React.Component {
     super(props);
     this.state = {
       user: {},
-      user_id: "",
+      username: "",
     };
   }
   componentDidMount() {
     let { id } = this.props.match.params;
     console.log("setting state id: " + id);
-    this.setState({ user_id: id });
-    console.log("state: " + this.state.user_id);
+    this.setState({ username: id });
+    console.log("state: " + this.state.username);
 
-    // TODO: Fetch user
-
-    // const apiUrl = config.api.url + "/users?userID=" + id;
-    // fetch(apiUrl)
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     this.setState({ user: data[0] });
-    //     console.log(data);
-    //   });
+    const apiUrl = config.api.url + "/users/" + id;
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({ user: data });
+      });
   }
 
   render() {
@@ -38,7 +35,10 @@ class User extends React.Component {
         <Nav />
         <div class="content">
           {/* <h3>User: {this.state.user.name}</h3> */}
-          <h3>User: {this.state.user_id}</h3>
+          <h3>User: {this.state.user.username}</h3>
+          <p>Location: {this.state.user.location}</p>
+          <p>Rating: {this.state.user.rating}</p>
+          <p>User class: {this.state.user.type}</p>
         </div>
       </div>
     );
