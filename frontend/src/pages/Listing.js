@@ -50,6 +50,36 @@ class Listing extends React.Component {
       const content = await rawResponse.json();
 
       if (content.statusCode === 200) {
+        alert("Listing removed.");
+        this.props.history.push("/");
+      } else {
+        // TODO: Error modal
+      }
+    })();
+  }
+
+  requestListing(id) {
+    console.log("requesting: " + id);
+
+    (async () => {
+      const apiUrl = config.api.url + "/requests";
+      const rawResponse = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: "johndoe",
+          listing: this.state.listing_id,
+        }),
+      });
+      const content = await rawResponse.json();
+
+      console.log(content);
+
+      if (content.statusCode === 200) {
+        alert("Request sent.");
         this.props.history.push("/");
       } else {
         // TODO: Error modal
@@ -71,6 +101,15 @@ class Listing extends React.Component {
           <p>Available for: {this.state.listing.Duration}</p>
           <p>Location: {this.state.listing.Location}</p>
           <p>Listing status: {this.state.listing.Status}</p>
+
+          <button
+            class=""
+            onClick={this.requestListing.bind(this, this.state.listing_id)}
+          >
+            Request to borrow this listing
+          </button>
+
+          <br></br>
 
           <button
             class="error"
