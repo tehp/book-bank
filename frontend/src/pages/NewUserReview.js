@@ -15,9 +15,8 @@ function NewUserReview() {
       fetch(apiUrl, {
           method: "POST",
           headers: {
-              "Accept": "application/json",
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
+              Accept: "application/json",
+              "Content-Type": "application/json"
           },
           body: JSON.stringify({
               'Username': username,
@@ -25,10 +24,11 @@ function NewUserReview() {
               'Rating': rating,
               'Comment': comment}),
       }).then(res => {
-          if (res.statusCode === 200) {
-              console.log("Success")
-              history.push("/user-review/" + res.body.ReviewID)
-          }
+          res.json().then(rawResponse => {
+              if (rawResponse.statusCode === 200) {
+                  history.push("/user-review/" + rawResponse.ReviewID)
+            }
+      })
 
       }).catch(err => console.log(err))
       event.preventDefault();
