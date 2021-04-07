@@ -4,6 +4,14 @@ import Nav from "../components/Nav";
 
 import config from "../config.json";
 
+var AmazonCognitoIdentity = require("amazon-cognito-identity-js");
+
+var poolData = {
+  UserPoolId: config.cognito.UserPoolId,
+  ClientId: config.cognito.ClientId,
+};
+var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
 class Register extends React.Component {
   constructor(props) {
     super(props);
@@ -11,6 +19,7 @@ class Register extends React.Component {
       email: "",
       username: "",
       location: "",
+      password: "",
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -29,32 +38,48 @@ class Register extends React.Component {
   }
 
   handleSubmit(event) {
-    (async () => {
-      const apiUrl = config.api.url + "/users";
-      console.log(JSON.stringify(this.state));
-
-      const rawResponse = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(this.state),
-      });
-
-      const content = await rawResponse.json();
-
-      if (content.statusCode === 200) {
-        let url = "/user/" + this.state.username;
-        console.log("redirecting to new user: " + url);
-        this.props.history.push(url);
-        console.log(content);
-      } else {
-        // TODO: Error modal
-      }
-    })();
-
     event.preventDefault();
+
+    // Cognito register
+    var attributeList = [];
+
+    var dataEmail = {
+      Name: "email",
+      Value: this.state.email,
+    };
+
+    var dataLocale = {
+      Name: "locale",
+      Value: this.state.location,
+    };
+
+    var attributeLocale = new AmazonCognitoIdentity.CognitoUserAttribute(
+      dataLocale
+    );
+    var attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(
+      dataEmail
+    );
+
+    attributeList.push(attributeLocale);
+    attributeList.push(attributeEmail);
+
+    let url = "/user/" + this.state.username;
+
+    userPool.signUp(
+      this.state.username,
+      this.state.password,
+      attributeList,
+      null,
+      function (err, result) {
+        if (err) {
+          alert(err.message || JSON.stringify(err));
+          return;
+        }
+        var cognitoUser = result.user;
+        console.log("user name is " + cognitoUser.getUsername());
+      }
+    );
+    this.props.history.push(url);
   }
 
   render() {
@@ -74,7 +99,13 @@ class Register extends React.Component {
               ></input>
             </label>
             <label>
-              <input type="password" placeholder="Password"></input>
+              <input
+                type="password"
+                value={this.state.password}
+                name="password"
+                onChange={this.handleInputChange}
+                placeholder="Password"
+              ></input>
             </label>
             <label>
               <input
@@ -105,31 +136,3 @@ class Register extends React.Component {
 }
 
 export default Register;
-
-// function Register() {
-//   return (
-//     <div className="App">
-//       <Nav />
-//       <div class="content">
-//         <h1>Register</h1>
-//         <fieldset class="flex two-800 one">
-//           <label>
-//             <input type="email" placeholder="Email"></input>
-//           </label>
-//           <label>
-//             <input type="password" placeholder="Password"></input>
-//           </label>
-//           <label>
-//             <input type="text" placeholder="Name"></input>
-//           </label>
-//           <label>
-//             <input type="text" placeholder="Location"></input>
-//           </label>
-//         </fieldset>
-//         <button>Register</button>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Register;
