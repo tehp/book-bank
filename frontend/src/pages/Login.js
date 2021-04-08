@@ -63,10 +63,12 @@ class Login extends React.Component {
 
         AWS.config.region = "us-east-1";
 
+        const credentialKey = `cognito-idp.us-east-1.amazonaws.com/${config.cognito.UserPoolId}`
+
         AWS.config.credentials = new AWS.CognitoIdentityCredentials({
           IdentityPoolId: config.cognito.IdentityPoolId, // your identity pool id here
           Logins: {
-            "cognito-idp.us-east-1.amazonaws.com/us-east-1_6en0He0uy": result
+            [credentialKey]: result
               .getIdToken()
               .getJwtToken(),
           },
