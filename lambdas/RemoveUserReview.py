@@ -7,7 +7,7 @@ table = dynamodb.Table('UserReviewTable')
 
 def lambda_handler(event, context):
     try:
-        ReviewID = str(event['pathParameters']['ReviewID'])
+        ReviewID = str(event['ReviewID'])
     except:
         return {
             'isBase64Encoded': True,
@@ -17,10 +17,21 @@ def lambda_handler(event, context):
             'body': 'Valid ReviewID required'
         }
 
+    exprAttrNames = {}
+    exprAttrVals = {}
+    
+    filterExpression = "#" + "Reviewer = :Reviewer"
+    exprAttrNames['#Reviewer'] = 'Reviewer'
+    exprAttrVals[':Reviewer'] = event['Reviewer']
+
     response = table.delete_item(
         Key={
             'ReviewID': ReviewID
         },
+        ConditionExpression=filterExpression,
+        ExpressionAttributeNames=exprAttrNames,
+        ExpressionAttributeValues=exprAttrVals,
+        
         ReturnValues='ALL_OLD')
 
     try:
