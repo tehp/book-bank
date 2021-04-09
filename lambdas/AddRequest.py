@@ -54,5 +54,3 @@ def getReason(event):
     if 'reason' in event.keys():
         return event['reason']
     return ''
-    
-    
