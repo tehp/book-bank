@@ -12,6 +12,12 @@ def lambda_handler(event, context):
     exprAttrNames = {}
     numUpdates = 0
     
+    if 'username' not in event.keys() or not event['username']:
+        return {
+            'statusCode': 400,
+            'body': json.dumps('Invalid username.')
+        }
+    
     if 'listingID' not in event.keys():
         return {
             'statusCode': 400,
@@ -65,13 +71,19 @@ def lambda_handler(event, context):
             'statusCode': 400,
             'body': "Nothing to update"
         }
+        
+    
+        
+    filterExpression = "#" + "username = :username"
+    exprAttrNames['#username'] = 'Username'
+    exprAttrVals[':username'] = event['username']
     
     try:    
         result = table.update_item(
                 Key={
                     'ListingID': str(event['listingID'])
                 },
-                ConditionExpression=Key('ListingID').eq(event['listingID']),
+                ConditionExpression=filterExpression,
                 UpdateExpression=updateExpression,
                 ExpressionAttributeNames=exprAttrNames,
                 ExpressionAttributeValues=exprAttrVals
@@ -79,7 +91,7 @@ def lambda_handler(event, context):
     except:
         return{
             'statusCode': 400,
-            'body': "ListingID " + str(event['listingID']) + " is not valid."
+            'body': "Unauthorized Update."
         }
         
     return{
