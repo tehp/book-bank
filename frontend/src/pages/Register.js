@@ -77,9 +77,39 @@ class Register extends React.Component {
         }
         var cognitoUser = result.user;
         console.log("user name is " + cognitoUser.getUsername());
+
+        // cognitoUser.getAttributeVerificationCode("email", {
+        //   onSuccess: function (result) {
+        //     console.log("call result: " + result);
+        //     this.props.history.push(url);
+        //   },
+        //   onFailure: function (err) {
+        //     alert(err.message || JSON.stringify(err));
+        //   },
+        //   inputVerificationCode: function () {
+        //     console.log("verifying...");
+        //     var verificationCode = prompt(
+        //       "Please input verification code: ",
+        //       ""
+        //     );
+        //     cognitoUser.verifyAttribute("email", verificationCode, this);
+        //   },
+        // });
+
+        let code = prompt("What is your email verification code?");
+        cognitoUser.confirmRegistration(code, true, function (err, result) {
+          if (err) {
+            alert(err.message || JSON.stringify(err));
+            return;
+          }
+          console.log("call result: " + result);
+          if (result === "SUCCESS") {
+            alert("Success, you may now log in.");
+          }
+        });
       }
     );
-    this.props.history.push(url);
+    //this.props.history.push(url);
   }
 
   render() {
